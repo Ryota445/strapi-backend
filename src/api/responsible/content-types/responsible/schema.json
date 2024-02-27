@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "responsibles",
+  "info": {
+    "singularName": "responsible",
+    "pluralName": "responsibles",
+    "displayName": "Responsible",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "responsibleName": {
+      "type": "string"
+    },
+    "responsiblePhone": {
+      "type": "biginteger"
+    },
+    "responsibleEmail": {
+      "type": "email"
+    },
+    "inventories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::inventory.inventory",
+      "mappedBy": "responsible"
+    }
+  }
+}

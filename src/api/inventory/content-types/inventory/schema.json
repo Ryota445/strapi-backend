@@ -52,6 +52,18 @@
     },
     "serialNumber": {
       "type": "string"
+    },
+    "company_inventory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company-inventory.company-inventory",
+      "inversedBy": "inventories"
+    },
+    "responsible": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::responsible.responsible",
+      "inversedBy": "inventories"
     }
   }
 }

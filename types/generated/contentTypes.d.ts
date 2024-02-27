@@ -362,47 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiInventoryInventory extends Schema.CollectionType {
-  collectionName: 'inventories';
-  info: {
-    singularName: 'inventory';
-    pluralName: 'inventories';
-    displayName: 'Inventory';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    id_inv: Attribute.String;
-    img_inv: Attribute.Media;
-    building: Attribute.String;
-    floor: Attribute.String;
-    room: Attribute.String;
-    teacher: Attribute.String;
-    YearMoneyGet: Attribute.String;
-    DateOrder: Attribute.Date;
-    DateRecive: Attribute.Date;
-    serialNumber: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::inventory.inventory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::inventory.inventory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -824,6 +783,137 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiCompanyInventoryCompanyInventory
+  extends Schema.CollectionType {
+  collectionName: 'company_inventories';
+  info: {
+    singularName: 'company-inventory';
+    pluralName: 'company-inventories';
+    displayName: 'CompanyInventory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Cname: Attribute.String;
+    taxId: Attribute.BigInteger;
+    contactName: Attribute.String;
+    Cphone: Attribute.BigInteger;
+    Cemail: Attribute.Email;
+    Caddress: Attribute.Text;
+    inventories: Attribute.Relation<
+      'api::company-inventory.company-inventory',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::company-inventory.company-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::company-inventory.company-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInventoryInventory extends Schema.CollectionType {
+  collectionName: 'inventories';
+  info: {
+    singularName: 'inventory';
+    pluralName: 'inventories';
+    displayName: 'Inventory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    id_inv: Attribute.String;
+    img_inv: Attribute.Media;
+    building: Attribute.String;
+    floor: Attribute.String;
+    room: Attribute.String;
+    teacher: Attribute.String;
+    YearMoneyGet: Attribute.String;
+    DateOrder: Attribute.Date;
+    DateRecive: Attribute.Date;
+    serialNumber: Attribute.String;
+    company_inventory: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::company-inventory.company-inventory'
+    >;
+    responsible: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::responsible.responsible'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiResponsibleResponsible extends Schema.CollectionType {
+  collectionName: 'responsibles';
+  info: {
+    singularName: 'responsible';
+    pluralName: 'responsibles';
+    displayName: 'Responsible';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    responsibleName: Attribute.String;
+    responsiblePhone: Attribute.BigInteger;
+    responsibleEmail: Attribute.Email;
+    inventories: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -834,7 +924,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::inventory.inventory': ApiInventoryInventory;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -843,6 +932,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::company-inventory.company-inventory': ApiCompanyInventoryCompanyInventory;
+      'api::inventory.inventory': ApiInventoryInventory;
+      'api::responsible.responsible': ApiResponsibleResponsible;
     }
   }
 }
