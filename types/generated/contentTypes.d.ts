@@ -783,6 +783,76 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiBuildingBuilding extends Schema.CollectionType {
+  collectionName: 'buildings';
+  info: {
+    singularName: 'building';
+    pluralName: 'buildings';
+    displayName: 'building';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    buildingName: Attribute.String;
+    inventories: Attribute.Relation<
+      'api::building.building',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::building.building',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::building.building',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'Category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    CategoryName: Attribute.String;
+    inventories: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCompanyInventoryCompanyInventory
   extends Schema.CollectionType {
   collectionName: 'company_inventories';
@@ -825,6 +895,41 @@ export interface ApiCompanyInventoryCompanyInventory
   };
 }
 
+export interface ApiHowToGetHowToGet extends Schema.CollectionType {
+  collectionName: 'how_to_gets';
+  info: {
+    singularName: 'how-to-get';
+    pluralName: 'how-to-gets';
+    displayName: 'howToGet';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    howToGetName: Attribute.String;
+    inventories: Attribute.Relation<
+      'api::how-to-get.how-to-get',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::how-to-get.how-to-get',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::how-to-get.how-to-get',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiInventoryInventory extends Schema.CollectionType {
   collectionName: 'inventories';
   info: {
@@ -840,11 +945,8 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
     name: Attribute.String;
     id_inv: Attribute.String;
     img_inv: Attribute.Media;
-    building: Attribute.String;
     floor: Attribute.String;
     room: Attribute.String;
-    teacher: Attribute.String;
-    YearMoneyGet: Attribute.String;
     DateOrder: Attribute.Date;
     DateRecive: Attribute.Date;
     serialNumber: Attribute.String;
@@ -857,6 +959,35 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'api::inventory.inventory',
       'manyToOne',
       'api::responsible.responsible'
+    >;
+    category: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::category.category'
+    >;
+    building: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::building.building'
+    >;
+    how_to_get: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::how-to-get.how-to-get'
+    >;
+    year_money_get: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::year-money-get.year-money-get'
+    >;
+    brand: Attribute.String;
+    model: Attribute.String;
+    age_use: Attribute.Integer;
+    information: Attribute.Text;
+    source_money: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::source-money.source-money'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -914,6 +1045,76 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
   };
 }
 
+export interface ApiSourceMoneySourceMoney extends Schema.CollectionType {
+  collectionName: 'source_monies';
+  info: {
+    singularName: 'source-money';
+    pluralName: 'source-monies';
+    displayName: 'sourceMoney';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    sourceMoneyName: Attribute.String;
+    inventories: Attribute.Relation<
+      'api::source-money.source-money',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::source-money.source-money',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::source-money.source-money',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiYearMoneyGetYearMoneyGet extends Schema.CollectionType {
+  collectionName: 'year_money_gets';
+  info: {
+    singularName: 'year-money-get';
+    pluralName: 'year-money-gets';
+    displayName: 'yearMoneyGet';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    yearMoneyGetName: Attribute.String;
+    inventories: Attribute.Relation<
+      'api::year-money-get.year-money-get',
+      'oneToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::year-money-get.year-money-get',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::year-money-get.year-money-get',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -932,9 +1133,14 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::building.building': ApiBuildingBuilding;
+      'api::category.category': ApiCategoryCategory;
       'api::company-inventory.company-inventory': ApiCompanyInventoryCompanyInventory;
+      'api::how-to-get.how-to-get': ApiHowToGetHowToGet;
       'api::inventory.inventory': ApiInventoryInventory;
       'api::responsible.responsible': ApiResponsibleResponsible;
+      'api::source-money.source-money': ApiSourceMoneySourceMoney;
+      'api::year-money-get.year-money-get': ApiYearMoneyGetYearMoneyGet;
     }
   }
 }
