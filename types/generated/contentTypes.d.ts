@@ -895,6 +895,37 @@ export interface ApiCompanyInventoryCompanyInventory
   };
 }
 
+export interface ApiFloorFloor extends Schema.CollectionType {
+  collectionName: 'floors';
+  info: {
+    singularName: 'floor';
+    pluralName: 'floors';
+    displayName: 'Floor';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    FloorNumber: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::floor.floor',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::floor.floor',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiHowToGetHowToGet extends Schema.CollectionType {
   collectionName: 'how_to_gets';
   info: {
@@ -945,8 +976,6 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
     name: Attribute.String;
     id_inv: Attribute.String;
     img_inv: Attribute.Media;
-    floor: Attribute.String;
-    room: Attribute.String;
     DateOrder: Attribute.Date;
     DateRecive: Attribute.Date;
     serialNumber: Attribute.String;
@@ -989,6 +1018,15 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'manyToOne',
       'api::source-money.source-money'
     >;
+    floor: Attribute.String;
+    room: Attribute.String;
+    status_inventory: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToOne',
+      'api::status-inventory.status-inventory'
+    >;
+    prize: Attribute.Float;
+    allowedRepair: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1000,6 +1038,36 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::inventory.inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiReportRepairReportRepair extends Schema.CollectionType {
+  collectionName: 'report_repairs';
+  info: {
+    singularName: 'report-repair';
+    pluralName: 'report-repairs';
+    displayName: 'ReportRepair';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    RepairFile: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::report-repair.report-repair',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::report-repair.report-repair',
       'oneToOne',
       'admin::user'
     > &
@@ -1080,6 +1148,37 @@ export interface ApiSourceMoneySourceMoney extends Schema.CollectionType {
   };
 }
 
+export interface ApiStatusInventoryStatusInventory
+  extends Schema.CollectionType {
+  collectionName: 'status_inventories';
+  info: {
+    singularName: 'status-inventory';
+    pluralName: 'status-inventories';
+    displayName: 'StatusInventory';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    StatusInventoryName: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::status-inventory.status-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::status-inventory.status-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiYearMoneyGetYearMoneyGet extends Schema.CollectionType {
   collectionName: 'year_money_gets';
   info: {
@@ -1136,10 +1235,13 @@ declare module '@strapi/types' {
       'api::building.building': ApiBuildingBuilding;
       'api::category.category': ApiCategoryCategory;
       'api::company-inventory.company-inventory': ApiCompanyInventoryCompanyInventory;
+      'api::floor.floor': ApiFloorFloor;
       'api::how-to-get.how-to-get': ApiHowToGetHowToGet;
       'api::inventory.inventory': ApiInventoryInventory;
+      'api::report-repair.report-repair': ApiReportRepairReportRepair;
       'api::responsible.responsible': ApiResponsibleResponsible;
       'api::source-money.source-money': ApiSourceMoneySourceMoney;
+      'api::status-inventory.status-inventory': ApiStatusInventoryStatusInventory;
       'api::year-money-get.year-money-get': ApiYearMoneyGetYearMoneyGet;
     }
   }

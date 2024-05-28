@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "report_repairs",
+  "info": {
+    "singularName": "report-repair",
+    "pluralName": "report-repairs",
+    "displayName": "ReportRepair"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "RepairFile": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

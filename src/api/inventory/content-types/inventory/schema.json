@@ -29,12 +29,6 @@
         "audios"
       ]
     },
-    "floor": {
-      "type": "string"
-    },
-    "room": {
-      "type": "string"
-    },
     "DateOrder": {
       "type": "date"
     },
@@ -97,6 +91,23 @@
       "relation": "manyToOne",
       "target": "api::source-money.source-money",
       "inversedBy": "inventories"
+    },
+    "floor": {
+      "type": "string"
+    },
+    "room": {
+      "type": "string"
+    },
+    "status_inventory": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::status-inventory.status-inventory"
+    },
+    "prize": {
+      "type": "float"
+    },
+    "allowedRepair": {
+      "type": "boolean"
     }
   }
 }
