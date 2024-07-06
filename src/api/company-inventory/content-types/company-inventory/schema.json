@@ -21,9 +21,6 @@
     "contactName": {
       "type": "string"
     },
-    "Cphone": {
-      "type": "biginteger"
-    },
     "Cemail": {
       "type": "email"
     },
@@ -35,6 +32,9 @@
       "relation": "oneToMany",
       "target": "api::inventory.inventory",
       "mappedBy": "company_inventory"
+    },
+    "Cphone": {
+      "type": "string"
     }
   }
 }

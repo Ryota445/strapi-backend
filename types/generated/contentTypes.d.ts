@@ -690,7 +690,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -869,7 +868,6 @@ export interface ApiCompanyInventoryCompanyInventory
     Cname: Attribute.String;
     taxId: Attribute.BigInteger;
     contactName: Attribute.String;
-    Cphone: Attribute.BigInteger;
     Cemail: Attribute.Email;
     Caddress: Attribute.Text;
     inventories: Attribute.Relation<
@@ -877,6 +875,7 @@ export interface ApiCompanyInventoryCompanyInventory
       'oneToMany',
       'api::inventory.inventory'
     >;
+    Cphone: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -888,37 +887,6 @@ export interface ApiCompanyInventoryCompanyInventory
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::company-inventory.company-inventory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiFloorFloor extends Schema.CollectionType {
-  collectionName: 'floors';
-  info: {
-    singularName: 'floor';
-    pluralName: 'floors';
-    displayName: 'Floor';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    FloorNumber: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::floor.floor',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::floor.floor',
       'oneToOne',
       'admin::user'
     > &
@@ -1025,8 +993,45 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'oneToOne',
       'api::status-inventory.status-inventory'
     >;
-    prize: Attribute.Float;
+    prize: Attribute.Decimal;
     allowedRepair: Attribute.Boolean;
+    status_repair: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToOne',
+      'api::status-repair.status-repair'
+    >;
+    repair_reports: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToMany',
+      'api::repair-report.repair-report'
+    >;
+    maintenance_reports: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToMany',
+      'api::maintenance-report.maintenance-report'
+    >;
+    request_change_locations: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToMany',
+      'api::request-change-location.request-change-location'
+    >;
+    request_disposals: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToMany',
+      'api::request-disposal.request-disposal'
+    >;
+    notDisposal: Attribute.Boolean;
+    sub_inventories: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToMany',
+      'api::sub-inventory.sub-inventory'
+    >;
+    isDisposal: Attribute.Boolean;
+    request_sent_backs: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToMany',
+      'api::request-sent-back.request-sent-back'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1045,29 +1050,248 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
   };
 }
 
-export interface ApiReportRepairReportRepair extends Schema.CollectionType {
-  collectionName: 'report_repairs';
+export interface ApiMaintenanceReportMaintenanceReport
+  extends Schema.CollectionType {
+  collectionName: 'maintenance_reports';
   info: {
-    singularName: 'report-repair';
-    pluralName: 'report-repairs';
-    displayName: 'ReportRepair';
+    singularName: 'maintenance-report';
+    pluralName: 'maintenance-reports';
+    displayName: 'MaintenanceReport';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    RepairFile: Attribute.Media;
+    inventory: Attribute.Relation<
+      'api::maintenance-report.maintenance-report',
+      'manyToOne',
+      'api::inventory.inventory'
+    >;
+    company_inventory: Attribute.Relation<
+      'api::maintenance-report.maintenance-report',
+      'oneToOne',
+      'api::company-inventory.company-inventory'
+    >;
+    DateToDo: Attribute.Date;
+    newDueDate: Attribute.Date;
+    countNextToDueDate: Attribute.Integer;
+    FileMaintenanceByAdmin: Attribute.Media;
+    DueDate: Attribute.Date;
+    sub_inventory: Attribute.Relation<
+      'api::maintenance-report.maintenance-report',
+      'manyToOne',
+      'api::sub-inventory.sub-inventory'
+    >;
+    isDone: Attribute.Boolean;
+    isSubInventory: Attribute.Boolean;
+    prize: Attribute.Decimal;
+    DetailMaintenance: Attribute.Text;
+    NameMaintenance: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::report-repair.report-repair',
+      'api::maintenance-report.maintenance-report',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::report-repair.report-repair',
+      'api::maintenance-report.maintenance-report',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRepairReportRepairReport extends Schema.CollectionType {
+  collectionName: 'repair_reports';
+  info: {
+    singularName: 'repair-report';
+    pluralName: 'repair-reports';
+    displayName: 'RepairReport';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    inventory: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'manyToOne',
+      'api::inventory.inventory'
+    >;
+    RepairReasonByResponsible: Attribute.Text;
+    ReportFileByResponsible: Attribute.Media;
+    status_repair: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'oneToOne',
+      'api::status-repair.status-repair'
+    >;
+    company_inventory: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'oneToOne',
+      'api::company-inventory.company-inventory'
+    >;
+    NameRepair: Attribute.String;
+    DetailRepairByAdmin: Attribute.Text;
+    RepairPrice: Attribute.Decimal;
+    FileRepairByAdmin: Attribute.Media;
+    table_repair_and_maintenance: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'manyToOne',
+      'api::table-repair-and-maintenance.table-repair-and-maintenance'
+    >;
+    sub_inventory: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'manyToOne',
+      'api::sub-inventory.sub-inventory'
+    >;
+    isDone: Attribute.Boolean;
+    isSubInventory: Attribute.Boolean;
+    dateDoingRepair: Attribute.Date;
+    dateFinishRepair: Attribute.Date;
+    FileRepairDone: Attribute.Media;
+    NumberRepairFaculty: Attribute.String;
+    ResultConsider: Attribute.String;
+    DetailConsider: Attribute.Text;
+    ListDetailRepair: Attribute.Text;
+    FileConsider: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRequestChangeLocationRequestChangeLocation
+  extends Schema.CollectionType {
+  collectionName: 'request_change_locations';
+  info: {
+    singularName: 'request-change-location';
+    pluralName: 'request-change-locations';
+    displayName: 'RequestChangeLocation';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    NewLocationRoom: Attribute.String;
+    NewLocationFloor: Attribute.String;
+    building: Attribute.Relation<
+      'api::request-change-location.request-change-location',
+      'oneToOne',
+      'api::building.building'
+    >;
+    inventories: Attribute.Relation<
+      'api::request-change-location.request-change-location',
+      'manyToMany',
+      'api::inventory.inventory'
+    >;
+    isDone: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::request-change-location.request-change-location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::request-change-location.request-change-location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRequestDisposalRequestDisposal
+  extends Schema.CollectionType {
+  collectionName: 'request_disposals';
+  info: {
+    singularName: 'request-disposal';
+    pluralName: 'request-disposals';
+    displayName: 'RequestDisposal';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ReasonDisposal: Attribute.Text;
+    FileReasonDisposal: Attribute.Media;
+    inventories: Attribute.Relation<
+      'api::request-disposal.request-disposal',
+      'manyToMany',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::request-disposal.request-disposal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::request-disposal.request-disposal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRequestSentBackRequestSentBack
+  extends Schema.CollectionType {
+  collectionName: 'request_sent_backs';
+  info: {
+    singularName: 'request-sent-back';
+    pluralName: 'request-sent-backs';
+    displayName: 'RequestSentBack';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ReasonSentBack: Attribute.Text;
+    FileReasonSentBack: Attribute.Media;
+    inventory: Attribute.Relation<
+      'api::request-sent-back.request-sent-back',
+      'manyToOne',
+      'api::inventory.inventory'
+    >;
+    isDone: Attribute.Boolean;
+    Allowed: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::request-sent-back.request-sent-back',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::request-sent-back.request-sent-back',
       'oneToOne',
       'admin::user'
     > &
@@ -1088,13 +1312,13 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
   };
   attributes: {
     responsibleName: Attribute.String;
-    responsiblePhone: Attribute.BigInteger;
     responsibleEmail: Attribute.Email;
     inventories: Attribute.Relation<
       'api::responsible.responsible',
       'oneToMany',
       'api::inventory.inventory'
     >;
+    responsiblePhone: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1179,6 +1403,128 @@ export interface ApiStatusInventoryStatusInventory
   };
 }
 
+export interface ApiStatusRepairStatusRepair extends Schema.CollectionType {
+  collectionName: 'status_repairs';
+  info: {
+    singularName: 'status-repair';
+    pluralName: 'status-repairs';
+    displayName: 'StatusRepair';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    nameStatusRepair: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::status-repair.status-repair',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::status-repair.status-repair',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSubInventorySubInventory extends Schema.CollectionType {
+  collectionName: 'sub_inventories';
+  info: {
+    singularName: 'sub-inventory';
+    pluralName: 'sub-inventories';
+    displayName: 'SubInventory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    id_inv: Attribute.String;
+    serialNumber: Attribute.String;
+    brand: Attribute.String;
+    model: Attribute.String;
+    status_inventory: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'oneToOne',
+      'api::status-inventory.status-inventory'
+    >;
+    repair_reports: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'oneToMany',
+      'api::repair-report.repair-report'
+    >;
+    maintenance_reports: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'oneToMany',
+      'api::maintenance-report.maintenance-report'
+    >;
+    inventory: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'manyToOne',
+      'api::inventory.inventory'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::sub-inventory.sub-inventory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTableRepairAndMaintenanceTableRepairAndMaintenance
+  extends Schema.CollectionType {
+  collectionName: 'table_repair_and_maintenances';
+  info: {
+    singularName: 'table-repair-and-maintenance';
+    pluralName: 'table-repair-and-maintenances';
+    displayName: 'TableRepairAndMaintenance';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    repair_reports: Attribute.Relation<
+      'api::table-repair-and-maintenance.table-repair-and-maintenance',
+      'oneToMany',
+      'api::repair-report.repair-report'
+    >;
+    TypeOfReport: Attribute.Enumeration<['Repair', 'Maintenance']>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::table-repair-and-maintenance.table-repair-and-maintenance',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::table-repair-and-maintenance.table-repair-and-maintenance',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiYearMoneyGetYearMoneyGet extends Schema.CollectionType {
   collectionName: 'year_money_gets';
   info: {
@@ -1235,13 +1581,19 @@ declare module '@strapi/types' {
       'api::building.building': ApiBuildingBuilding;
       'api::category.category': ApiCategoryCategory;
       'api::company-inventory.company-inventory': ApiCompanyInventoryCompanyInventory;
-      'api::floor.floor': ApiFloorFloor;
       'api::how-to-get.how-to-get': ApiHowToGetHowToGet;
       'api::inventory.inventory': ApiInventoryInventory;
-      'api::report-repair.report-repair': ApiReportRepairReportRepair;
+      'api::maintenance-report.maintenance-report': ApiMaintenanceReportMaintenanceReport;
+      'api::repair-report.repair-report': ApiRepairReportRepairReport;
+      'api::request-change-location.request-change-location': ApiRequestChangeLocationRequestChangeLocation;
+      'api::request-disposal.request-disposal': ApiRequestDisposalRequestDisposal;
+      'api::request-sent-back.request-sent-back': ApiRequestSentBackRequestSentBack;
       'api::responsible.responsible': ApiResponsibleResponsible;
       'api::source-money.source-money': ApiSourceMoneySourceMoney;
       'api::status-inventory.status-inventory': ApiStatusInventoryStatusInventory;
+      'api::status-repair.status-repair': ApiStatusRepairStatusRepair;
+      'api::sub-inventory.sub-inventory': ApiSubInventorySubInventory;
+      'api::table-repair-and-maintenance.table-repair-and-maintenance': ApiTableRepairAndMaintenanceTableRepairAndMaintenance;
       'api::year-money-get.year-money-get': ApiYearMoneyGetYearMoneyGet;
     }
   }

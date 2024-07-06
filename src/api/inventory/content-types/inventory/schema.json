@@ -104,10 +104,57 @@
       "target": "api::status-inventory.status-inventory"
     },
     "prize": {
-      "type": "float"
+      "type": "decimal"
     },
     "allowedRepair": {
       "type": "boolean"
+    },
+    "status_repair": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::status-repair.status-repair"
+    },
+    "repair_reports": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::repair-report.repair-report",
+      "mappedBy": "inventory"
+    },
+    "maintenance_reports": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::maintenance-report.maintenance-report",
+      "mappedBy": "inventory"
+    },
+    "request_change_locations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::request-change-location.request-change-location",
+      "inversedBy": "inventories"
+    },
+    "request_disposals": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::request-disposal.request-disposal",
+      "mappedBy": "inventories"
+    },
+    "notDisposal": {
+      "type": "boolean"
+    },
+    "sub_inventories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sub-inventory.sub-inventory",
+      "mappedBy": "inventory"
+    },
+    "isDisposal": {
+      "type": "boolean"
+    },
+    "request_sent_backs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::request-sent-back.request-sent-back",
+      "mappedBy": "inventory"
     }
   }
 }
