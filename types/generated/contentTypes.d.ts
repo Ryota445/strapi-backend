@@ -876,6 +876,7 @@ export interface ApiCompanyInventoryCompanyInventory
       'api::inventory.inventory'
     >;
     Cphone: Attribute.String;
+    role: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1159,6 +1160,7 @@ export interface ApiRepairReportRepairReport extends Schema.CollectionType {
     DetailConsider: Attribute.Text;
     ListDetailRepair: Attribute.Text;
     FileConsider: Attribute.Media;
+    isCanRepair: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1470,6 +1472,7 @@ export interface ApiSubInventorySubInventory extends Schema.CollectionType {
       'manyToOne',
       'api::inventory.inventory'
     >;
+    isSubInventory: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

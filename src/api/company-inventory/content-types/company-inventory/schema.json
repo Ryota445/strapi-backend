@@ -35,6 +35,9 @@
     },
     "Cphone": {
       "type": "string"
+    },
+    "role": {
+      "type": "string"
     }
   }
 }

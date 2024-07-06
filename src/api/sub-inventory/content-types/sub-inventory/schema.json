@@ -49,6 +49,9 @@
       "relation": "manyToOne",
       "target": "api::inventory.inventory",
       "inversedBy": "sub_inventories"
+    },
+    "isSubInventory": {
+      "type": "boolean"
     }
   }
 }
