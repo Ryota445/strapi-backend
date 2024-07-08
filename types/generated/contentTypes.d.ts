@@ -1243,6 +1243,7 @@ export interface ApiRequestDisposalRequestDisposal
       'manyToMany',
       'api::inventory.inventory'
     >;
+    isDone: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
