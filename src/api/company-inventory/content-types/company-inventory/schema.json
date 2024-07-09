@@ -15,9 +15,6 @@
     "Cname": {
       "type": "string"
     },
-    "taxId": {
-      "type": "biginteger"
-    },
     "contactName": {
       "type": "string"
     },
@@ -37,6 +34,9 @@
       "type": "string"
     },
     "role": {
+      "type": "string"
+    },
+    "taxId": {
       "type": "string"
     }
   }

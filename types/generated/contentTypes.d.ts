@@ -876,7 +876,6 @@ export interface ApiCompanyInventoryCompanyInventory
   };
   attributes: {
     Cname: Attribute.String;
-    taxId: Attribute.BigInteger;
     contactName: Attribute.String;
     Cemail: Attribute.Email;
     Caddress: Attribute.Text;
@@ -887,6 +886,7 @@ export interface ApiCompanyInventoryCompanyInventory
     >;
     Cphone: Attribute.String;
     role: Attribute.String;
+    taxId: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
