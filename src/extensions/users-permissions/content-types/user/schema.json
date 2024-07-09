@@ -64,6 +64,16 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
+    },
+    "responsible": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::responsible.responsible"
+    },
+    "role_in_web": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::role-in-web.role-in-web"
     }
   }
 }

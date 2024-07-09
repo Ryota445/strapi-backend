@@ -718,6 +718,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    responsible: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::responsible.responsible'
+    >;
+    role_in_web: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::role-in-web.role-in-web'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1340,6 +1350,36 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
   };
 }
 
+export interface ApiRoleInWebRoleInWeb extends Schema.CollectionType {
+  collectionName: 'role_in_webs';
+  info: {
+    singularName: 'role-in-web';
+    pluralName: 'role-in-webs';
+    displayName: 'RoleInWeb';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    RoleName: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::role-in-web.role-in-web',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::role-in-web.role-in-web',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiSourceMoneySourceMoney extends Schema.CollectionType {
   collectionName: 'source_monies';
   info: {
@@ -1593,6 +1633,7 @@ declare module '@strapi/types' {
       'api::request-disposal.request-disposal': ApiRequestDisposalRequestDisposal;
       'api::request-sent-back.request-sent-back': ApiRequestSentBackRequestSentBack;
       'api::responsible.responsible': ApiResponsibleResponsible;
+      'api::role-in-web.role-in-web': ApiRoleInWebRoleInWeb;
       'api::source-money.source-money': ApiSourceMoneySourceMoney;
       'api::status-inventory.status-inventory': ApiStatusInventoryStatusInventory;
       'api::status-repair.status-repair': ApiStatusRepairStatusRepair;
