@@ -37,6 +37,12 @@
     },
     "Allowed": {
       "type": "boolean"
+    },
+    "reportedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::responsible.responsible",
+      "inversedBy": "request_sent_backs"
     }
   }
 }

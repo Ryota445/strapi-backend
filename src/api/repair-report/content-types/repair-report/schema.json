@@ -122,6 +122,12 @@
     },
     "isCanRepair": {
       "type": "boolean"
+    },
+    "reportedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::responsible.responsible",
+      "inversedBy": "repair_reports"
     }
   }
 }

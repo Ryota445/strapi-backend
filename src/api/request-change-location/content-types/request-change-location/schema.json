@@ -31,6 +31,12 @@
     },
     "isDone": {
       "type": "boolean"
+    },
+    "reportedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::responsible.responsible",
+      "inversedBy": "request_change_locations"
     }
   }
 }

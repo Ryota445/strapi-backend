@@ -66,6 +66,12 @@
     },
     "NameMaintenance": {
       "type": "string"
+    },
+    "reportedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::responsible.responsible",
+      "inversedBy": "maintenance_reports"
     }
   }
 }

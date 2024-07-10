@@ -1099,6 +1099,11 @@ export interface ApiMaintenanceReportMaintenanceReport
     prize: Attribute.Decimal;
     DetailMaintenance: Attribute.Text;
     NameMaintenance: Attribute.String;
+    reportedBy: Attribute.Relation<
+      'api::maintenance-report.maintenance-report',
+      'manyToOne',
+      'api::responsible.responsible'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1171,6 +1176,11 @@ export interface ApiRepairReportRepairReport extends Schema.CollectionType {
     ListDetailRepair: Attribute.Text;
     FileConsider: Attribute.Media;
     isCanRepair: Attribute.Boolean;
+    reportedBy: Attribute.Relation<
+      'api::repair-report.repair-report',
+      'manyToOne',
+      'api::responsible.responsible'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1215,6 +1225,11 @@ export interface ApiRequestChangeLocationRequestChangeLocation
       'api::inventory.inventory'
     >;
     isDone: Attribute.Boolean;
+    reportedBy: Attribute.Relation<
+      'api::request-change-location.request-change-location',
+      'manyToOne',
+      'api::responsible.responsible'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1294,6 +1309,11 @@ export interface ApiRequestSentBackRequestSentBack
     >;
     isDone: Attribute.Boolean;
     Allowed: Attribute.Boolean;
+    reportedBy: Attribute.Relation<
+      'api::request-sent-back.request-sent-back',
+      'manyToOne',
+      'api::responsible.responsible'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1332,6 +1352,26 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
       'api::inventory.inventory'
     >;
     responsiblePhone: Attribute.String;
+    request_change_locations: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToMany',
+      'api::request-change-location.request-change-location'
+    >;
+    request_sent_backs: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToMany',
+      'api::request-sent-back.request-sent-back'
+    >;
+    repair_reports: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToMany',
+      'api::repair-report.repair-report'
+    >;
+    maintenance_reports: Attribute.Relation<
+      'api::responsible.responsible',
+      'oneToMany',
+      'api::maintenance-report.maintenance-report'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
