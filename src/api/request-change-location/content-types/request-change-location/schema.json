@@ -37,6 +37,15 @@
       "relation": "manyToOne",
       "target": "api::responsible.responsible",
       "inversedBy": "request_change_locations"
+    },
+    "OldLocationRoom": {
+      "type": "string"
+    },
+    "OldLocationFloor": {
+      "type": "string"
+    },
+    "Oldbuilding": {
+      "type": "string"
     }
   }
 }

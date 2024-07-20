@@ -1230,6 +1230,9 @@ export interface ApiRequestChangeLocationRequestChangeLocation
       'manyToOne',
       'api::responsible.responsible'
     >;
+    OldLocationRoom: Attribute.String;
+    OldLocationFloor: Attribute.String;
+    Oldbuilding: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
