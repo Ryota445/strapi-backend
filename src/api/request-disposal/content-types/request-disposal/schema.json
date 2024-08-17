@@ -28,12 +28,9 @@
     },
     "inventories": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::inventory.inventory",
-      "inversedBy": "request_disposals"
-    },
-    "isDone": {
-      "type": "boolean"
+      "mappedBy": "request_disposal"
     }
   }
 }

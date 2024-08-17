@@ -1026,11 +1026,6 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'manyToMany',
       'api::request-change-location.request-change-location'
     >;
-    request_disposals: Attribute.Relation<
-      'api::inventory.inventory',
-      'manyToMany',
-      'api::request-disposal.request-disposal'
-    >;
     notDisposal: Attribute.Boolean;
     sub_inventories: Attribute.Relation<
       'api::inventory.inventory',
@@ -1042,6 +1037,11 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'api::inventory.inventory',
       'oneToMany',
       'api::request-sent-back.request-sent-back'
+    >;
+    request_disposal: Attribute.Relation<
+      'api::inventory.inventory',
+      'manyToOne',
+      'api::request-disposal.request-disposal'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1268,10 +1268,9 @@ export interface ApiRequestDisposalRequestDisposal
     FileReasonDisposal: Attribute.Media;
     inventories: Attribute.Relation<
       'api::request-disposal.request-disposal',
-      'manyToMany',
+      'oneToMany',
       'api::inventory.inventory'
     >;
-    isDone: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

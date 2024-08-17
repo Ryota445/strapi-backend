@@ -132,12 +132,6 @@
       "target": "api::request-change-location.request-change-location",
       "inversedBy": "inventories"
     },
-    "request_disposals": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::request-disposal.request-disposal",
-      "mappedBy": "inventories"
-    },
     "notDisposal": {
       "type": "boolean"
     },
@@ -155,6 +149,12 @@
       "relation": "oneToMany",
       "target": "api::request-sent-back.request-sent-back",
       "mappedBy": "inventory"
+    },
+    "request_disposal": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::request-disposal.request-disposal",
+      "inversedBy": "inventories"
     }
   }
 }
