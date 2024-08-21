@@ -155,6 +155,20 @@
       "relation": "manyToOne",
       "target": "api::request-disposal.request-disposal",
       "inversedBy": "inventories"
+    },
+    "isReporting": {
+      "type": "boolean"
+    },
+    "asset_code": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "unit": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::unit.unit"
     }
   }
 }

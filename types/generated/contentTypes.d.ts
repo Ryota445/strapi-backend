@@ -1043,6 +1043,14 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'manyToOne',
       'api::request-disposal.request-disposal'
     >;
+    isReporting: Attribute.Boolean;
+    asset_code: Attribute.String;
+    quantity: Attribute.Integer;
+    unit: Attribute.Relation<
+      'api::inventory.inventory',
+      'oneToOne',
+      'api::unit.unit'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1611,6 +1619,28 @@ export interface ApiTableRepairAndMaintenanceTableRepairAndMaintenance
   };
 }
 
+export interface ApiUnitUnit extends Schema.CollectionType {
+  collectionName: 'units';
+  info: {
+    singularName: 'unit';
+    pluralName: 'units';
+    displayName: 'Unit';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name_unit: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::unit.unit', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::unit.unit', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiYearMoneyGetYearMoneyGet extends Schema.CollectionType {
   collectionName: 'year_money_gets';
   info: {
@@ -1681,6 +1711,7 @@ declare module '@strapi/types' {
       'api::status-repair.status-repair': ApiStatusRepairStatusRepair;
       'api::sub-inventory.sub-inventory': ApiSubInventorySubInventory;
       'api::table-repair-and-maintenance.table-repair-and-maintenance': ApiTableRepairAndMaintenanceTableRepairAndMaintenance;
+      'api::unit.unit': ApiUnitUnit;
       'api::year-money-get.year-money-get': ApiYearMoneyGetYearMoneyGet;
     }
   }
