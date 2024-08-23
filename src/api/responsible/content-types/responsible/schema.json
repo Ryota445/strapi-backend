@@ -18,12 +18,6 @@
     "responsibleEmail": {
       "type": "email"
     },
-    "inventories": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::inventory.inventory",
-      "mappedBy": "responsible"
-    },
     "responsiblePhone": {
       "type": "string"
     },
@@ -50,6 +44,12 @@
       "relation": "oneToMany",
       "target": "api::maintenance-report.maintenance-report",
       "mappedBy": "reportedBy"
+    },
+    "inventories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::inventory.inventory",
+      "mappedBy": "responsibles"
     }
   }
 }

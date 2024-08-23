@@ -963,9 +963,9 @@ export interface ApiInventoryInventory extends Schema.CollectionType {
       'manyToOne',
       'api::company-inventory.company-inventory'
     >;
-    responsible: Attribute.Relation<
+    responsibles: Attribute.Relation<
       'api::inventory.inventory',
-      'manyToOne',
+      'manyToMany',
       'api::responsible.responsible'
     >;
     category: Attribute.Relation<
@@ -1356,11 +1356,6 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
   attributes: {
     responsibleName: Attribute.String;
     responsibleEmail: Attribute.Email;
-    inventories: Attribute.Relation<
-      'api::responsible.responsible',
-      'oneToMany',
-      'api::inventory.inventory'
-    >;
     responsiblePhone: Attribute.String;
     request_change_locations: Attribute.Relation<
       'api::responsible.responsible',
@@ -1381,6 +1376,11 @@ export interface ApiResponsibleResponsible extends Schema.CollectionType {
       'api::responsible.responsible',
       'oneToMany',
       'api::maintenance-report.maintenance-report'
+    >;
+    inventories: Attribute.Relation<
+      'api::responsible.responsible',
+      'manyToMany',
+      'api::inventory.inventory'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

@@ -44,9 +44,9 @@
       "target": "api::company-inventory.company-inventory",
       "inversedBy": "inventories"
     },
-    "responsible": {
+    "responsibles": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::responsible.responsible",
       "inversedBy": "inventories"
     },
